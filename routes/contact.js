@@ -22,6 +22,6 @@ else{
     */
 }
     });
-})
+});
 
 module.exports=router;
