@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/mongoose": "^5.3.12"
   },
-  "main": "app.js",
+  "main": "server.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kranthi9093/COMP308-Lesson4.git"
