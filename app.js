@@ -5,6 +5,13 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
+//modules for authentication
+let session=require('express-session');
+let passport=require('passport')
+let passportlocal=require('passport-local');
+let localStrategy=passporLocal.Strategy;
+let flash=require('connect-flash');//displaying errors /login messages
+
 // database setup
 let mongoose = require('mongoose');
 let DB = require('./config/db');
@@ -34,6 +41,36 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
+
+//setup session
+app.use(session({
+secret:"SomeSecret",
+saveUninitialized:true,
+resave:true  
+}));
+
+//initiliaze passport and flash
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/',indexRouter);
+app.user('/contact-list',contactRouter);
+
+//passport User Configuration
+
+//create a user model
+let UserModel=require('../models/user');
+let user=UserModel.User;
+
+
+//implement a user strategy
+passport.use(User.createStartegy());
+
+//serialize and deserialize user info
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use('/', indexRouter);
 app.use('/contact-list', contactRouter);
